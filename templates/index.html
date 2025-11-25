@@ -5,10 +5,30 @@
     <title>To-Do</title>
 </head>
 <body>
-
     <h1>To-Do Page</h1>
 
     <form id="todoForm">
+        <div>
+            <label>
+                Item ID:
+                <input type="number" id="itemId" required>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                Item UUID:
+                <input type="text" id="itemUuid" required>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                Item Hash:
+                <input type="text" id="itemHash" required>
+            </label>
+        </div>
+
         <div>
             <label>
                 Item Name:
@@ -32,28 +52,24 @@
         const form = document.getElementById("todoForm");
 
         form.addEventListener("submit", async function(event) {
-            event.preventDefault();  // stop page refresh
-
-            // collect form data
+            event.preventDefault();
             const todoItem = {
+                itemId: document.getElementById("itemId").value,
+                itemUuid: document.getElementById("itemUuid").value,
+                itemHash: document.getElementById("itemHash").value,
                 itemName: document.getElementById("itemName").value,
                 itemDescription: document.getElementById("itemDescription").value
             };
 
-            // send to backend
             const response = await fetch("/submittodoitem", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(todoItem)
             });
 
             const result = await response.json();
-
-            // show result on page
-            document.getElementById("result").textContent =
-                JSON.stringify(result, null, 2);
+            document.getElementById("result").textContent = JSON.stringify(result, null, 2);
         });
     </script>
-
 </body>
 </html>
